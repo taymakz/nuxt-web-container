@@ -8,12 +8,20 @@ function toggle() {
 </script>
 
 <template>
-  <div class="text-red">
-    {{ x }} , {{ y }} , {{ color.value }}
+  <div class="grid grid-cols-[1fr_2fr] h-full">
+    <div class="border-r border-base">
+      content
+      <div class="text-red">
+        {{ x }} , {{ y }} ,<br>
 
-    <button @click="toggle">
-      {{ color.value }}
-    </button>
+        <button @click="toggle">
+          {{ color.value }}
+        </button>
+      </div>
+    </div>
+    <div class="p4">
+      Playground
+    </div>
   </div>
 </template>
 
