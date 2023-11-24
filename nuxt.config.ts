@@ -17,4 +17,15 @@ export default defineNuxtConfig({
     '~/assets/css/fonts.css',
     '~/assets/css/main.css',
   ],
+  nitro: {
+    routeRules: {
+      '/*': {
+        cors: true,
+        headers: {
+          'Cross-Origin-Embedder-Policy': 'require-corp',
+          'Cross-Origin-Opener-Policy': 'same-origin',
+        },
+      },
+    },
+  },
 })

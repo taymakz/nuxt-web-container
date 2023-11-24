@@ -10,4 +10,8 @@
 .dark{
   color-scheme: dark;
 }
+html,body{
+  height: 100vh;
+  overflow: hidden;
+}
 </style>
