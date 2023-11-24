@@ -7,11 +7,6 @@ const props = defineProps<{
 const root = ref<HTMLDivElement>()
 
 const terminal = new Terminal()
-// const stream = new WritableStream({
-//   write(chunk) {
-//     terminal.write(chunk)
-//   },
-// })
 watch(() => props.stream, (s) => {
   if (!s)
     return
@@ -24,7 +19,7 @@ watch(() => props.stream, (s) => {
     })
   }
   read()
-}, { immediate: true })
+}, { flush: 'sync', immediate: true })
 
 onMounted(() => {
   terminal.open(root.value!)

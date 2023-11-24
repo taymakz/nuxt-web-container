@@ -6,8 +6,10 @@ const iframe = ref<HTMLIFrameElement>()
 const wcUrl = ref<string>()
 
 type Status = 'init' | 'mount' | 'install' | 'start' | 'ready' | 'error'
+
 const status = ref<Status>('init')
 const error = shallowRef<{ message: string }>()
+
 const stream = ref<ReadableStream>()
 
 async function startDevServer() {
@@ -18,6 +20,7 @@ async function startDevServer() {
     as: 'raw',
     eager: true,
   })
+
   const files = Object.fromEntries(
     Object.entries(rawFiles).map(([path, content]) => {
       return [path.replace('../templates/basic/', ''), {
@@ -29,16 +32,18 @@ async function startDevServer() {
   )
 
   const wc = await useWebContainer()
+
   wc.on('server-ready', (port, url) => {
     status.value = 'ready'
     wcUrl.value = url
   })
+
   wc.on('error', (err) => {
     status.value = 'error'
     error.value = err
   })
-  status.value = 'mount'
 
+  status.value = 'mount'
   await wc.mount(files)
 
   status.value = 'install'
@@ -50,10 +55,11 @@ async function startDevServer() {
   if (installExitCode !== 0) {
     status.value = 'error'
     error.value = {
-      message: 'Unable to run npm install',
+      message: `Unable to run npm install, exit as ${installExitCode}`,
     }
     throw new Error('Unable to run npm install')
   }
+  
   status.value = 'start'
   const devProcess = await wc.spawn('pnpm', ['run', 'dev'])
   stream.value = devProcess.output
